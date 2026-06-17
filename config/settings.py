@@ -1,5 +1,7 @@
 from pathlib import Path
 
+from django.conf.global_settings import SESSION_COOKIE_AGE
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -104,3 +106,5 @@ USE_TZ = True
 STATIC_URL = "static/"
 
 AUTH_USER_MODEL = "accounts.User"
+
+SESSION_COOKIE_AGE = 60*60*24*30 # 1 month in second.

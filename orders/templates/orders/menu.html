@@ -51,10 +51,14 @@
                 <div id="selected-menu-items" class="space-y-2"></div>
 
                 <div class="border-t mt-4 pt-4">
+
+                <form class="border-t mt-4 pt-4" method="post">
+                    {% csrf_token %}
                     <h3 id="total-price" class="text-xl font-bold">
                         Total: Rs. 0
                     </h3>
 
+                    <input id="order-items" type="hidden" name="order-items" value="">
                     <button
                         id="place-order-btn"
                         class="w-full mt-4 bg-green-600 text-white py-3 rounded-lg hover:bg-green-700"
@@ -62,108 +66,30 @@
                         Place Order
                     </button>
                 </div>
+                </form>
             </div>
 
         </div>
-    </div>
-
-    <script>
-        const cart = {};
-        const menuItems = document.querySelectorAll(".menu-item");
-        const selectedItemsContainer = document.getElementById("selected-menu-items");
-        const totalPriceDisplay = document.getElementById("total-price");
-
-        menuItems.forEach(item => {
-            item.addEventListener("click", () => {
-
-                const id = item.dataset.itemId;
+@@ -80,6 +82,8 @@
                 const name = item.dataset.itemName;
                 const price = Number(item.dataset.itemPrice);
+
+                // console.log(id, name, price);
 
                 if (cart[id]) {
                     cart[id].quantity++;
                 } else {
-                    cart[id] = {
-                        id,
-                        name,
-                        price,
+@@ -90,7 +94,8 @@
                         quantity: 1
                     };
                 }
 
+                // console.log(cart);
+
                 renderCart();
             });
         });
-
-        function renderCart() {
-
-            selectedItemsContainer.innerHTML = "";
-
-            let total = 0;
-
-            Object.values(cart).forEach(item => {
-
-                total += item.price * item.quantity;
-
-                selectedItemsContainer.innerHTML += `
-                    <div class="flex justify-between items-center border rounded-lg p-3">
-                        <div>
-                            <div class="font-medium">${item.name}</div>
-                            <div class="text-sm text-gray-500">
-                                Rs. ${item.price}
-                            </div>
-                        </div>
-
-                        <div class="flex items-center gap-2">
-                            <button
-                                onclick="decreaseQuantity('${item.id}')"
-                                class="bg-red-500 text-white px-3 py-1 rounded"
-                            >
-                                -
-                            </button>
-
-                            <span class="font-bold">
-                                ${item.quantity}
-                            </span>
-
-                            <button
-                                onclick="increaseQuantity('${item.id}')"
-                                class="bg-green-500 text-white px-3 py-1 rounded"
-                            >
-                                +
-                            </button>
-                        </div>
-                    </div>
-                `;
-            });
-
-            totalPriceDisplay.innerText = `Total: Rs. ${total}`;
-        }
-
-        function increaseQuantity(id) {
-            cart[id].quantity++;
-            renderCart();
-        }
-
-        function decreaseQuantity(id) {
-
-            cart[id].quantity--;
-
-            if (cart[id].quantity <= 0) {
-                delete cart[id];
-            }
-
-            renderCart();
-        }
-
-        document.getElementById("place-order-btn")
-            .addEventListener("click", () => {
-
-                const orderData = {
-                    table_id: "{{ table_id }}",
-                    items: Object.values(cart).map(item => ({
-                        item_id: item.id,
-                        quantity: item.quantity
+@@ -167,18 +172,11 @@
                     }))
                 };
 
@@ -179,8 +105,12 @@
                     body: JSON.stringify(orderData)
                 })
                 */
+                // console.log(orderData);
+                // console.log(JSON.stringify(orderData));
+
+                document.getElementById("order-items").value = JSON.stringify(orderData)
+
             });
     </script>
 </body>
-
 </html>

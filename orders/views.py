@@ -2,7 +2,7 @@ from django.shortcuts import render
 # from django.contrib.auth.decorators import login_required
 from .decorators import role_required
 from accounts.models import User
-from .models import Table
+from .models import Table, Category
 
 
 @role_required([User.ROLE_CHOICES.WAITER])

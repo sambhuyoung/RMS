@@ -6,12 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
 </head>
 
 <body class="bg-gray-100">
     <div class="max-w-7xl mx-auto p-4">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
+            <!-- Menu -->
             <div>
                 <h1 class="text-2xl font-bold mb-4">Menu</h1>
 
@@ -40,6 +42,7 @@
                 {% endfor %}
             </div>
 
+            <!-- Selected Items -->
             <div class="bg-white rounded-xl shadow p-4 h-fit sticky top-4">
                 <h2 class="text-xl font-bold mb-4">
                     Current Order
@@ -74,9 +77,12 @@
 
         menuItems.forEach(item => {
             item.addEventListener("click", () => {
+
                 const id = item.dataset.itemId;
                 const name = item.dataset.itemName;
                 const price = Number(item.dataset.itemPrice);
+
+                // console.log(id, name, price);
 
                 if (cart[id]) {
                     cart[id].quantity++;
@@ -88,16 +94,20 @@
                         quantity: 1
                     };
                 }
+                // console.log(cart);
 
                 renderCart();
             });
         });
 
         function renderCart() {
+
             selectedItemsContainer.innerHTML = "";
+
             let total = 0;
 
             Object.values(cart).forEach(item => {
+
                 total += item.price * item.quantity;
 
                 selectedItemsContainer.innerHTML += `
@@ -110,34 +120,22 @@
                         </div>
 
                         <div class="flex items-center gap-2">
-                            <div class="flex items-center gap-2 bg-gray-50 border rounded p-1">
-                                <button
-                                    type="button"
-                                    onclick="decreaseQuantity('${item.id}')"
-                                    class="bg-red-500 text-white px-3 py-1 rounded font-bold hover:bg-red-600"
-                                >
-                                    -
-                                </button>
+                            <button
+                                onclick="decreaseQuantity('${item.id}')"
+                                class="bg-red-500 text-white px-3 py-1 rounded"
+                            >
+                                -
+                            </button>
 
-                                <span class="font-bold px-2">
-                                    ${item.quantity}
-                                </span>
-
-                                <button
-                                    type="button"
-                                    onclick="increaseQuantity('${item.id}')"
-                                    class="bg-green-500 text-white px-3 py-1 rounded font-bold hover:bg-green-600"
-                                >
-                                    +
-                                </button>
-                            </div>
+                            <span class="font-bold">
+                                ${item.quantity}
+                            </span>
 
                             <button
-                                type="button"
-                                onclick="removeFromCart('${item.id}')"
-                                class="bg-gray-200 text-gray-700 hover:bg-red-100 hover:text-red-600 px-3 py-2 rounded transition font-medium text-sm"
+                                onclick="increaseQuantity('${item.id}')"
+                                class="bg-green-500 text-white px-3 py-1 rounded"
                             >
-                                Remove
+                                +
                             </button>
                         </div>
                     </div>
@@ -153,6 +151,7 @@
         }
 
         function decreaseQuantity(id) {
+
             cart[id].quantity--;
 
             if (cart[id].quantity <= 0) {
@@ -162,15 +161,9 @@
             renderCart();
         }
 
-        function removeFromCart(id) {
-            if (cart[id]) {
-                delete cart[id];
-                renderCart();
-            }
-        }
-
         document.getElementById("place-order-btn")
             .addEventListener("click", () => {
+
                 const orderData = {
                     table_id: "{{ table_id }}",
                     items: Object.values(cart).map(item => ({
@@ -179,7 +172,11 @@
                     }))
                 };
 
-                document.getElementById("order-items").value = JSON.stringify(orderData);
+                // console.log(orderData);
+                // console.log(JSON.stringify(orderData));
+
+                document.getElementById("order-items").value = JSON.stringify(orderData)
+
             });
     </script>
 </body>

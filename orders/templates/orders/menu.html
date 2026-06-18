@@ -50,14 +50,12 @@
 
                 <div id="selected-menu-items" class="space-y-2"></div>
 
-                <div class="border-t mt-4 pt-4">
 
                 <form class="border-t mt-4 pt-4" method="post">
                     {% csrf_token %}
                     <h3 id="total-price" class="text-xl font-bold">
                         Total: Rs. 0
                     </h3>
-
                     <input id="order-items" type="hidden" name="order-items" value="">
                     <button
                         id="place-order-btn"
@@ -65,12 +63,22 @@
                     >
                         Place Order
                     </button>
-                </div>
                 </form>
             </div>
 
         </div>
-@@ -80,6 +82,8 @@
+    </div>
+
+    <script>
+        const cart = {};
+        const menuItems = document.querySelectorAll(".menu-item");
+        const selectedItemsContainer = document.getElementById("selected-menu-items");
+        const totalPriceDisplay = document.getElementById("total-price");
+
+        menuItems.forEach(item => {
+            item.addEventListener("click", () => {
+
+                const id = item.dataset.itemId;
                 const name = item.dataset.itemName;
                 const price = Number(item.dataset.itemPrice);
 
@@ -79,32 +87,91 @@
                 if (cart[id]) {
                     cart[id].quantity++;
                 } else {
-@@ -90,7 +94,8 @@
+                    cart[id] = {
+                        id,
+                        name,
+                        price,
                         quantity: 1
                     };
                 }
-
                 // console.log(cart);
 
                 renderCart();
             });
         });
-@@ -167,18 +172,11 @@
+
+        function renderCart() {
+
+            selectedItemsContainer.innerHTML = "";
+
+            let total = 0;
+
+            Object.values(cart).forEach(item => {
+
+                total += item.price * item.quantity;
+
+                selectedItemsContainer.innerHTML += `
+                    <div class="flex justify-between items-center border rounded-lg p-3">
+                        <div>
+                            <div class="font-medium">${item.name}</div>
+                            <div class="text-sm text-gray-500">
+                                Rs. ${item.price}
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            <button
+                                onclick="decreaseQuantity('${item.id}')"
+                                class="bg-red-500 text-white px-3 py-1 rounded"
+                            >
+                                -
+                            </button>
+
+                            <span class="font-bold">
+                                ${item.quantity}
+                            </span>
+
+                            <button
+                                onclick="increaseQuantity('${item.id}')"
+                                class="bg-green-500 text-white px-3 py-1 rounded"
+                            >
+                                +
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            totalPriceDisplay.innerText = `Total: Rs. ${total}`;
+        }
+
+        function increaseQuantity(id) {
+            cart[id].quantity++;
+            renderCart();
+        }
+
+        function decreaseQuantity(id) {
+
+            cart[id].quantity--;
+
+            if (cart[id].quantity <= 0) {
+                delete cart[id];
+            }
+
+            renderCart();
+        }
+
+        document.getElementById("place-order-btn")
+            .addEventListener("click", () => {
+
+                const orderData = {
+                    table_id: "{{ table_id }}",
+                    items: Object.values(cart).map(item => ({
+                        item_id: item.id,
+                        quantity: item.quantity
                     }))
                 };
 
-                console.log(orderData);
-
-                /*
-                fetch('/create-order/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': csrftoken
-                    },
-                    body: JSON.stringify(orderData)
-                })
-                */
                 // console.log(orderData);
                 // console.log(JSON.stringify(orderData));
 
@@ -113,4 +180,5 @@
             });
     </script>
 </body>
+
 </html>

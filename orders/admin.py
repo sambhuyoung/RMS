@@ -1,6 +1,4 @@
-
 from django.contrib import admin
-from .models import Table, Category, MenuItem
 from .models import Table, Category, MenuItem, Order, OrderItem
 
 @admin.register(Table)
@@ -10,5 +8,9 @@ class TableAdmin(admin.ModelAdmin):
 
 admin.site.register(Category)
 admin.site.register(MenuItem)
-admin.site.register(Order)
 admin.site.register(OrderItem)
+
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ["table", "status", "created_at"]

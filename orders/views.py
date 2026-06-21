@@ -71,7 +71,13 @@ def kitchen_dashboard_view(request):
     grouped_items = {}
 
     for item in orderitems:
-        station_name = item.menu_item.station.name
+        # यहाँ सुरक्षित तरिकाले स्टेसनको नाम चेक गरिन्छ
+        if item.menu_item and item.menu_item.station:
+            station_name = item.menu_item.station.name
+        else:
+            station_name = "No Station"  # यदि स्टेसन खाली छ भने यो ग्रुपमा जान्छ
+
+
         if station_name not in grouped_items.keys():
             grouped_items[station_name] = [item]
         else:

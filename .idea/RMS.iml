@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/orders/templates" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/orders/templates/orders" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/orders/templates/orders/data" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.14 (RMS)" jdkType="Python SDK" />

@@ -62,7 +62,6 @@ def menu_view(request, table_id):
         'orders': orders
     })
 
-
 @role_required([User.ROLE_CHOICES.KITCHEN])
 def kitchen_dashboard_view(request):
     station_code = request.GET.get('station_code', '')

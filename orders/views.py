@@ -199,3 +199,8 @@ def billing_tables_status_live(request):
     return JsonResponse({
         'tables': list(set(tables))
     })
+
+
+@role_required([User.ROLE_CHOICES.BILLING])
+def billing_view(request, table_id):
+    return render(request, "orders/billing.html")

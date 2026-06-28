@@ -1,7 +1,5 @@
 from pathlib import Path
 
-from django.conf.global_settings import SESSION_COOKIE_AGE
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -26,7 +24,6 @@ INSTALLED_APPS = [
     "django.contrib.humanize",
     "accounts",
     "orders",
-
 ]
 
 MIDDLEWARE = [
@@ -37,6 +34,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "accounts.middlewares.HomeRedirectMiddleware"
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -108,4 +106,4 @@ STATIC_URL = "static/"
 
 AUTH_USER_MODEL = "accounts.User"
 
-SESSION_COOKIE_AGE = 60*60*24*30 # 1 month in second.
+SESSION_COOKIE_AGE = 60*60*24*30 # 1 month in seconds

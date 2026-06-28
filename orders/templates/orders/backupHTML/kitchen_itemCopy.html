@@ -1,17 +1,44 @@
-{% extends 'orders/base.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kitchen Dashboard</title>
 
-{% block title %}
-Kitchen Confirmation
-{% endblock %}
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
 
-{% block heading %}
-Kitchen Confirmation
-{% endblock %}
+<body class="bg-slate-100 min-h-screen">
 
+    <!-- Header -->
+    <header class="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-4">
 
-{% block main_content %}
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 
-<main class="max-w-7xl mx-auto p-4 md:p-6">
+                <div>
+                    <h1 class="text-3xl font-bold text-slate-900">
+                        Kitchen Dashboard
+                    </h1>
+
+                    <div class="mt-1 text-sm text-slate-500">
+                        {{ request.user.first_name }} {{ request.user.last_name }}
+                        <span class="mx-2">•</span>
+                        {{ request.user.get_role_display }}
+                    </div>
+                </div>
+
+                <a href="{% url 'logout_view_url' %}"
+                    class="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-red-500 hover:bg-red-600 text-white font-medium transition">
+                    Logout
+                </a>
+
+            </div>
+
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-4 md:p-6">
 
         <!-- Messages -->
         {% if messages %}
@@ -65,7 +92,5 @@ Kitchen Confirmation
         </div>
     </main>
 
-{% endblock %}
-
-
-<% endblock %}
+</body>
+</html>

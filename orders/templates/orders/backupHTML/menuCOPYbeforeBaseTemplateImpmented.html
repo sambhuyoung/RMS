@@ -1,16 +1,13 @@
-{% extends 'orders/base.html' %}
 {% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
 
-{% block title %}
-Waiter Dashboard
-{% endblock %}
-
-{% block heading %}
-Waiter Dashbaord
-{% endblock %}
-
-{% block extra_head %}
-<style>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
         .blinking{
 
             animation: blink 1.5s infinite;
@@ -28,11 +25,11 @@ Waiter Dashbaord
                background-color: rgb(80, 95, 0);
             }
         }
-</style>
-{% endblock %}
+    </style>
+</head>
 
-{% block main_content %}
-<div class="max-w-7xl mx-auto p-4">
+<body class="bg-gray-100">
+    <div class="max-w-7xl mx-auto p-4">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
             <!-- Menu -->
@@ -126,11 +123,9 @@ Waiter Dashbaord
             </div>
 
         </div>
+    </div>
 
-{% endblock %}
-
-{% block extra_script %}
-<script>
+    <script>
         const cart = {};
         const menuItems = document.querySelectorAll(".menu-item");
         const selectedItemsContainer = document.getElementById("selected-menu-items");
@@ -240,4 +235,6 @@ Waiter Dashbaord
 
             });
     </script>
-{% endblock %}
+</body>
+
+</html>

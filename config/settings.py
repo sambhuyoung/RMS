@@ -15,6 +15,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -34,7 +35,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "accounts.middlewares.HomeRedirectMiddleware"
+    # "accounts.middlewares.HomeRedirectMiddleware"
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -107,3 +108,5 @@ STATIC_URL = "static/"
 AUTH_USER_MODEL = "accounts.User"
 
 SESSION_COOKIE_AGE = 60*60*24*30 # 1 month in seconds
+
+STATIC_URL = 'static/'

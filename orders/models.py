@@ -44,6 +44,8 @@ class MenuItem(models.Model):
     est_time = models.PositiveIntegerField(help_text="Write estimated preparation time in minutes", null=True,
                                            blank=True)
 
+    image = models.ImageField(upload_to="menu_items", null=True, blank=True)
+
     def __str__(self):
         return self.name
 

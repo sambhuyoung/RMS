@@ -1,3 +1,4 @@
+from argcomplete.scripts.activate_global_python_argcomplete import add_zsh_system_dir_to_fpath_for_user
 from django.shortcuts import render, redirect, get_object_or_404
 from .decorators import role_required
 from accounts.models import User
@@ -313,3 +314,7 @@ def trigger_print(request):
         return JsonResponse({"status": "success", "message": "Sent to emulator"})
     else:
         return JsonResponse({"status": "error", "message": "Printer unavailable"}, status=503)
+
+
+def home_view(request):
+    return render(request, "orders/home.html")

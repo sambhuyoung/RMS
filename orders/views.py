@@ -59,12 +59,16 @@ def menu_view(request, table_id):
 
         return redirect("tables_view_url")
 
-    categories = Category.objects.all()
+    # categories = Category.objects.all()
+
+    # select_related, prefetch_related
+    categories = Category.objects.prefetch_related("items")
     orders = Order.objects.filter(
         table_id=table_id
     ).exclude(
         status=Order.ORDER_STATUS.BILLED
-    ).order_by("-created_at")
+    # ).order_by("-created_at")
+    ).prefetch_related("items__menu_item").select_related("table").order_by("-created_at")
 
     # print(orders)
 
@@ -136,12 +140,12 @@ def kitchen_item_view(request, pk):
         station_code = request.session['station_code']
         url = reverse("kitchen_dashboard_view_url")
         params = {
-            'station_code': item.menu_item.station.code # station_code Previous
+            'station_code': item.menu_item.station.code  # station_code Previous
         }
         del request.session['station_code']
 
-        return redirect(f"{url}?{urlencode(params)}") # same station back work left.
-       # return redirect("kitchen_dashboard_view_url") # back to main dashboard.
+        return redirect(f"{url}?{urlencode(params)}")  # same station back work left.
+    # return redirect("kitchen_dashboard_view_url") # back to main dashboard.
 
     orderitem = OrderItem.objects.get(pk=pk)
 

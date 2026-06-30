@@ -20,5 +20,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("accounts.urls")),
     path("orders/", include("orders.urls")),
-    path ("api/v1/", include("accounts.apis.v1.urls"))
+    path ("api/v1/", include("accounts.apis.v1.urls")),
+    path("api/v2/", include("orders.apis.v1.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + debug_toolbar_urls()

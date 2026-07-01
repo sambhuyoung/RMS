@@ -13,7 +13,12 @@ class TableSerializer(serializers.ModelSerializer):
         model = Table
         fields = '__all__'
 
+
 class CategorySerializer(serializers.ModelSerializer):
+
+    # also give Items making it read only not modifiyable.
+    items = MenuItemSerializer(many=True, read_only=True)
+
     class Meta:
         model = Category
         fields = '__all__'

@@ -17,7 +17,10 @@ class TableSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
 
     # also give Items making it read only not modifiyable.
-    items = MenuItemSerializer(many=True, read_only=True)
+    #items = MenuItemSerializer(many=True, read_only=True)
+
+    # giving different name than in relation name
+    menuitems = MenuItemSerializer(source='items', many = True, read_only=True)
 
     class Meta:
         model = Category

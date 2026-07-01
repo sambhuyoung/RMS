@@ -22,13 +22,22 @@ class TableSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+# creating mini Serializer for Category
+class ItemSerializerForCategory(serializers.ModelSerializer):
+    class Meta:
+        model = MenuItem
+        fields = ["id", "name", "price", "image"]
+
 class CategorySerializer(serializers.ModelSerializer):
 
     # also give Items making it read only not chageable.
     #items = MenuItemSerializer(many=True, read_only=True)
 
     # giving different name than in relation name inbetween MenuItems and Category.
-    menuitems = MenuItemSerializer(source='items', many = True, read_only=True)
+    # menuitems = MenuItemSerializer(source='items', many = True, read_only=True)
+
+    # only fetching fewer data from the MenuItem for Category
+    menuitems = ItemSerializerForCategory(source='items', many=True, read_only=True)
 
     class Meta:
         model = Category

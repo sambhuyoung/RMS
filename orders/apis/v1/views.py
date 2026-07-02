@@ -1,6 +1,6 @@
 from django.db.migrations import serializer
 
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from orders.models import MenuItem, Table, Category
 from rest_framework.response import Response
@@ -8,8 +8,7 @@ from rest_framework import status
 from .serializers import MenuItemSerializer, TableSerializer, CategorySerializer
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticated
-
-
+from orders.apis.v1.permissions import IsWaiter,IsBilling,IsKitchen
 
 
 class MenuItemViewSet(viewsets.ModelViewSet):
@@ -18,7 +17,7 @@ class MenuItemViewSet(viewsets.ModelViewSet):
     # For pagination
     pagination_class = LimitOffsetPagination # There won't be any difference until write on ULR '?limit=10, look at 'https://www.django-rest-framework.org/api-guide/pagination/'
     # For authentication
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsWaiter]
 
     # def get_queryset(self):
     #     name = self.request.query_params.get('name') # will get data (parameter) from the URL which is added to search.
@@ -51,6 +50,8 @@ class MenuItemViewSet(viewsets.ModelViewSet):
 class TableViewSet(viewsets.ModelViewSet):
     queryset = Table.objects.all()
     serializer_class = TableSerializer
+    permission_classes = [IsAuthenticated, (IsWaiter|IsBilling)]
+
 
     @action(detail=True, methods=['get'])
     def check_reservation(self, request, pk=None):

@@ -7,6 +7,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from .serializers import MenuItemSerializer, TableSerializer, CategorySerializer
 from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.permissions import IsAuthenticated
+
 
 
 
@@ -14,8 +16,9 @@ class MenuItemViewSet(viewsets.ModelViewSet):
     queryset = MenuItem.objects.all()
     serializer_class = MenuItemSerializer
     # For pagination
-    pagination_class = LimitOffsetPagination # There won't be any difference until write on ULR '?limit=10
-    # view 'https://www.django-rest-framework.org/api-guide/pagination/'
+    pagination_class = LimitOffsetPagination # There won't be any difference until write on ULR '?limit=10, look at 'https://www.django-rest-framework.org/api-guide/pagination/'
+    # For authentication
+    permission_classes = [IsAuthenticated]
 
     # def get_queryset(self):
     #     name = self.request.query_params.get('name') # will get data (paramenter) from the URL which is added to search.

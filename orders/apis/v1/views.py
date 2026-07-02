@@ -21,7 +21,7 @@ class MenuItemViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     # def get_queryset(self):
-    #     name = self.request.query_params.get('name') # will get data (paramenter) from the URL which is added to search.
+    #     name = self.request.query_params.get('name') # will get data (parameter) from the URL which is added to search.
     #
     #     return MenuItem.objects.filter(name__icontains=name)name
 
@@ -29,11 +29,8 @@ class MenuItemViewSet(viewsets.ModelViewSet):
         queryset = MenuItem.objects.all()
         name = self.request.query_params.get("name", None)
         if name is not None:
-            # नाम भएको बेला मात्र फिल्टर गर्ने
+            # if name is provided on the URL filter according to that.
             queryset = MenuItem.objects.filter(name__icontains=name)
-        else:
-            # नाम नपठाए सबै आइटमहरू देखाइदिने
-            queryset = MenuItem.objects.all()
 
         # More filters
 
@@ -43,7 +40,7 @@ class MenuItemViewSet(viewsets.ModelViewSet):
         # else:
         #     queryset = MenuItem.objects.all()
         #
-        #     # २. यदि क्याटेगोरी पठाइएको छ भने क्याटेगोरीले फिल्टर गर्ने
+        #     # filter according to the category.
         #     if category is not None:
         #         queryset = queryset.filter(
         #             category__icontains=category

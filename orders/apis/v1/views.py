@@ -17,11 +17,36 @@ class MenuItemViewSet(viewsets.ModelViewSet):
     pagination_class = LimitOffsetPagination # There won't be any difference until write on ULR '?limit=10
     # view 'https://www.django-rest-framework.org/api-guide/pagination/'
 
+    # def get_queryset(self):
+    #     name = self.request.query_params.get('name') # will get data (paramenter) from the URL which is added to search.
+    #
+    #     return MenuItem.objects.filter(name__icontains=name)name
+
     def get_queryset(self):
-        name = self.request.query_params.get('name') # will get data (paramenter) from the URL which is added to search.
+        queryset = MenuItem.objects.all()
+        name = self.request.query_params.get("name", None)
+        if name is not None:
+            # नाम भएको बेला मात्र फिल्टर गर्ने
+            queryset = MenuItem.objects.filter(name__icontains=name)
+        else:
+            # नाम नपठाए सबै आइटमहरू देखाइदिने
+            queryset = MenuItem.objects.all()
 
-        return MenuItem.objects.filter(name__icontains=name)
+        # More filters
 
+        # price_lt = self.request.query_params.get("price_lt", None)
+        # if price_lt is not None:
+        #     queryset = MenuItem.objects.filter(price_lt__icontains=price_lt)
+        # else:
+        #     queryset = MenuItem.objects.all()
+        #
+        #     # २. यदि क्याटेगोरी पठाइएको छ भने क्याटेगोरीले फिल्टर गर्ने
+        #     if category is not None:
+        #         queryset = queryset.filter(
+        #             category__icontains=category
+        #         )  # वा category=category
+        #
+        return queryset
 
 class TableViewSet(viewsets.ModelViewSet):
     queryset = Table.objects.all()

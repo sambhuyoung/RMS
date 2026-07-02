@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     "orders",
     "debug_toolbar",
     "rest_framework",
+    "drf_yasg",
 ]
 
 MIDDLEWARE = [

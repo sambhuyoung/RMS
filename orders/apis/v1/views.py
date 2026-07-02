@@ -17,6 +17,10 @@ class MenuItemViewSet(viewsets.ModelViewSet):
     pagination_class = LimitOffsetPagination # There won't be any difference until write on ULR '?limit=10
     # view 'https://www.django-rest-framework.org/api-guide/pagination/'
 
+    def get_queryset(self):
+        name = self.request.query_params.get('name') # will get data (paramenter) from the URL which is added to search.
+
+        return MenuItem.objects.filter(name__icontains=name)
 
 
 class TableViewSet(viewsets.ModelViewSet):

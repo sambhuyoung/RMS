@@ -9,7 +9,10 @@ from .serializers import MenuItemSerializer, TableSerializer, CategorySerializer
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticated
 from orders.apis.v1.permissions import IsWaiter,IsBilling,IsKitchen
+from rest_framework.throttling import UserRateThrottle
 
+class UserMinThrottle(UserRateThrottle):
+    rate = '100/min'  # 100 requests per minute per authenticated user
 
 class MenuItemViewSet(viewsets.ModelViewSet):
     queryset = MenuItem.objects.all()
@@ -18,6 +21,7 @@ class MenuItemViewSet(viewsets.ModelViewSet):
     pagination_class = LimitOffsetPagination # There won't be any difference until write on ULR '?limit=10, look at 'https://www.django-rest-framework.org/api-guide/pagination/'
     # For authentication
     permission_classes = [IsAuthenticated, IsWaiter]
+    throttle_classes = [UserMinThrottle]
 
     # def get_queryset(self):
     #     name = self.request.query_params.get('name') # will get data (parameter) from the URL which is added to search.
